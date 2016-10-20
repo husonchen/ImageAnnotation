@@ -2,7 +2,7 @@ from pyArango.connection import *
 from requests.auth import HTTPBasicAuth
 import requests
 
-conn = Connection(username="root", password="imageannotation")
+conn = Connection(arangoURL = 'http://husonchen.com:8529',username="root", password="imageannotation")
 
 db = conn['_system']
 usersCollection = db['category']
