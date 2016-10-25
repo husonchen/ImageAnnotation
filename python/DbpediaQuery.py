@@ -1,4 +1,4 @@
-import time
+import sqlite3 as lite
 from ArangoSearch import ArangoSearcher
 
 '''
@@ -10,31 +10,68 @@ Thing has no super class relationships. Only Concept has super class or sub clas
 
 class DbpediaQuery :
     searcher = []
-
+    con = []
     def __init__(self):
         self.searcher = ArangoSearcher()
+        # self.con = lite.connect('resource-concept.db')
+        self.con = lite.connect('tmp.db')
+    '''
+    find all the concepts of a thing
+    '''
+    def getConceptsOfThing(self,thing) :
+        thing = thing.lower()
+        cur = self.con.cursor()
+        cur.execute("SELECT * FROM subject WHERE resource='%s'" %thing)
+        rows = cur.fetchall()
+        concepts = []
+        for row in rows:
+            concepts.append(row[1])
+
+        return concepts
 
     '''
     find the super class of a thing or class
+    if input is a thing, firstly find the concept, then finding the super class
+    As thing has more than 1 concepts, here I use only the first as the concept.
     '''
     def getSuperClass(self,tag,depth = 1):
+        # if tag is not a concept, first find the concept
+        concepts = self.getConceptsOfThing(tag)
+        if len(concepts) != 0 :
+            tag = concepts[0] #need further discuss
+            #cost 1 depth to find the concept
+            depth -= 1
+        return self.searcher.searchBroaderCategory(tag, depth)
 
-        if depth > 0 :
-            return self.searcher.searchBroaderCategory(tag,depth)
-        return [tag]
+
 
     '''
     find the smallest distance between two things or concept
     '''
     def getSmallestDistance(self,tag1,tag2):
-        return self.searcher.shortestPathBetweenCategores(tag1, tag2)
+
+        head = []
+        tail = []
+        concepts = self.getConceptsOfThing(tag1)
+        if len(concepts) != 0 :
+            head = [[tag1.lower()]]
+            tag1 = concepts[0] #need further discuss
+
+        concepts = self.getConceptsOfThing(tag2)
+        if len(concepts) != 0 :
+            tail = [[tag2.lower()]]
+            tag2 = concepts[0] #need further discuss
+
+        path = self.searcher.shortestPathBetweenCategores(tag1,tag2)
+
+        if len(path) == 0:
+            return False
+        return  head + path + tail
 
 if __name__ == '__main__':
     query = DbpediaQuery()
-    start = time.time() * 1000
-    print "SuperClass 1 higher level of blue : " + str(query.getSuperClass("blue"))
-    print "SuperClass 2 higher level of blue : " + str(query.getSuperClass("blue",2))
-    print "SuperClass 1 higher level of color : " + str(query.getSuperClass("color"))
+    print "concept of Blue : " + str(query.getConceptsOfThing("Blue"))
+    print "SuperClass 1 of blue : " + str(query.getSuperClass("blue"))
+    print "SuperClass 2 of blue : " + str(query.getSuperClass("blue",2))
+    print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
     print "SmallestDistance between blue and Airline " + str(query.getSmallestDistance("blue","Airline"))
-    end = time.time() * 1000
-    print "Cost Time = "+str(end-start) +" ms"

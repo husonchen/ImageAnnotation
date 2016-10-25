@@ -24,14 +24,14 @@ class ArangoSearcher :
     #     return False
 
     def searchBroaderCategory(self,category,depth=1):
-        category = category.capitalize()
+        category = category.lower()
         aql = "FOR v IN %s..%s OUTBOUND 'category/%s' GRAPH 'Koya' return DISTINCT(v._key)" % (depth ,depth ,category)
         queryResult = self.db.AQLQuery(aql, rawResults=True, batchSize=100)
         return queryResult
 
     def shortestPathBetweenCategores(self,category1,category2):
-        category1 = category1.capitalize()
-        category2 = category2.capitalize()
+        category1 = category1.lower()
+        category2 = category2.lower()
         aql = "FOR v, e IN ANY SHORTEST_PATH 'category/%s' TO 'category/%s' GRAPH 'Koya' RETURN [v._key]" % (category1 ,category2)
         queryResult = self.db.AQLQuery(aql, rawResults=True, batchSize=100)
         return queryResult.response['result']
