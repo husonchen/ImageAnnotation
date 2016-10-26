@@ -66,11 +66,25 @@ class DbpediaQuery :
         else :
             return False
 
-        path = self.searcher.shortestPathBetweenMultiCategores(concepts1,concepts2)
+        shortestPath = []
+        shortlength = 65535
+        for i in concepts1:
+            path = self.searcher.shortestPathBetweenCategores(i,concepts2[0])
+            if len(path) < shortlength:
+                shortlength = len(path)
+                shortestPath = path
+                shortestStart = concepts1[i]
 
-        if len(path[0]) == 0:
+        for i in concepts2:
+            path = self.searcher.shortestPathBetweenCategores(shortestStart,i)
+            if len(path) < shortlength:
+                shortlength = len(path)
+                shortestPath = path
+                shortestStart = concepts2[i]
+
+        if len(shortestPath) == 0:
             return False
-        return  head + path[0] + tail
+        return  head + shortestPath + tail
 
 if __name__ == '__main__':
     query = DbpediaQuery()
@@ -78,4 +92,8 @@ if __name__ == '__main__':
     print "SuperClass 1 of blue : " + str(query.getSuperClass("blue"))
     print "SuperClass 2 of blue : " + str(query.getSuperClass("blue",2))
     print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
-    print "SmallestDistance between blue and Airline " + str(query.getSmallestDistance("blue","Airline"))
+    import time
+    start = time.time() * 1000
+    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake"))
+    end = time.time() * 1000
+    print "cost time "+ str(end - start)
