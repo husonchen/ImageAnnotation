@@ -36,6 +36,15 @@ class ArangoSearcher :
         queryResult = self.db.AQLQuery(aql, rawResults=True, batchSize=100)
         return queryResult.response['result']
 
+    def shortestPathBetweenMultiCategores(self,categories1,categories2):
+        start = ['category/'+cat.lower().encode('utf-8') for cat in categories1]
+        end = ['category/'+cat.lower().encode('utf-8') for cat in categories2]
+        aql = "FOR a IN %s FOR d IN %s " \
+              "let path = (FOR v, e IN ANY SHORTEST_PATH a TO d GRAPH 'Koya' RETURN [v._key])" \
+              "SORT LENGTH(path) ASC limit 1" \
+              "return path" %(str(start),str(end))
+        queryResult = self.db.AQLQuery(aql, rawResults=True, batchSize=100)
+        return queryResult.response['result']
 
 if __name__ == '__main__':
     searcher = ArangoSearcher()

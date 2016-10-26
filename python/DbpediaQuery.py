@@ -14,7 +14,9 @@ class DbpediaQuery :
     def __init__(self):
         self.searcher = ArangoSearcher()
         # self.con = lite.connect('resource-concept.db')
-        self.con = lite.connect('tmp.db')
+        self.con = lite.connect('resource.db')
+        self.con.text_factory = lambda x: unicode(x, "utf-8", "ignore")
+
     '''
     find all the concepts of a thing
     '''
@@ -52,21 +54,23 @@ class DbpediaQuery :
 
         head = []
         tail = []
-        concepts = self.getConceptsOfThing(tag1)
-        if len(concepts) != 0 :
+        concepts1 = self.getConceptsOfThing(tag1)
+        if len(concepts1) != 0 :
             head = [[tag1.lower()]]
-            tag1 = concepts[0] #need further discuss
-
-        concepts = self.getConceptsOfThing(tag2)
-        if len(concepts) != 0 :
-            tail = [[tag2.lower()]]
-            tag2 = concepts[0] #need further discuss
-
-        path = self.searcher.shortestPathBetweenCategores(tag1,tag2)
-
-        if len(path) == 0:
+        else :
             return False
-        return  head + path + tail
+
+        concepts2 = self.getConceptsOfThing(tag2)
+        if len(concepts2) != 0 :
+            tail = [[tag2.lower()]]
+        else :
+            return False
+
+        path = self.searcher.shortestPathBetweenMultiCategores(concepts1,concepts2)
+
+        if len(path[0]) == 0:
+            return False
+        return  head + path[0] + tail
 
 if __name__ == '__main__':
     query = DbpediaQuery()
