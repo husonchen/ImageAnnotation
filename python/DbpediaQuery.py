@@ -84,44 +84,27 @@ class DbpediaQuery :
         if len(met) != 0 :
             return 1
         # if(met)
-        maxDepth = 6
+        maxDepth = 10
         shortlength = 65535
         isFind = False
         for i in range(0,maxDepth):
             # find the entry of this depth
             broaderCategories = self.findBroaderCategories(startSetList[i])
-            #compare to every categories in endSetList
-            for j in range(len(endSetList)):
-                inter = endSetList[j].intersection(broaderCategories)
-                if len(inter) != 0 :
-                    # arealdy find the path
-                    shortlength = i + j + 2
-                    isFind = True
-                    break
-            if isFind :
-                break
-            # not find the path, store it
+            broaderCategories.union(self.findSubCategories(startSetList[i]))
             startSetList.append(broaderCategories)
 
             # next extend end concept
             broaderCategories = self.findBroaderCategories(endSetList[i])
-            # compare to every categories in startSetList
-            for j in range(len(endSetList)):
-                inter = startSetList[j].intersection(broaderCategories)
-                if len(inter) != 0:
-                    # arealdy find the path
-                    shortlength = i + j + 2
-                    isFind = True
-                    break
-            if isFind :
-                break
+            broaderCategories.union(self.findSubCategories(endSetList[i]))
             endSetList.append(broaderCategories)
 
-        if isFind :
-            return shortlength
-        else:
-            return False
-
+        for i in range(len(startSetList)):
+            for j in range(len(endSetList)):
+                inter = startSetList[i].intersection(endSetList[j])
+                if len(inter) != 0 :
+                    if shortlength > i + j + 1:
+                        shortlength = i + j + 1
+        return shortlength
 
     def findBroaderCategories(self,concepts):
         concepts = tuple(concepts)
@@ -136,6 +119,18 @@ class DbpediaQuery :
 
         return concepts
 
+    def findSubCategories(self,concepts):
+        concepts = tuple(concepts)
+        cur = self.con.cursor()
+        sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)
+        print sql
+        cur.execute(sql)
+        rows = cur.fetchall()
+        concepts = set()
+        for row in rows:
+            concepts.add(row[0].encode('utf-8'))
+
+        return concepts
 
 if __name__ == '__main__':
     query = DbpediaQuery()
