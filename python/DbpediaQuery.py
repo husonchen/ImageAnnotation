@@ -1,5 +1,4 @@
 import sqlite3 as lite
-from ArangoSearch import ArangoSearcher
 
 '''
 Thing : is exact things
@@ -12,7 +11,6 @@ class DbpediaQuery :
     searcher = []
     con = []
     def __init__(self):
-        self.searcher = ArangoSearcher()
         # self.con = lite.connect('resource-concept.db')
         self.con = lite.connect('resource.db')
         self.con.text_factory = lambda x: unicode(x, "utf-8", "ignore")
@@ -87,30 +85,58 @@ class DbpediaQuery :
         maxDepth = 10
         shortlength = 65535
         isFind = False
-        for i in range(0,maxDepth):
+        for i in range(0, maxDepth):
             # find the entry of this depth
             broaderCategories = self.findBroaderCategories(startSetList[i])
-            broaderCategories.union(self.findSubCategories(startSetList[i]))
-            startSetList.append(broaderCategories)
+            subCategories = self.findSubCategories(startSetList[i])
+            nextCategories = broaderCategories | subCategories
+            if i > 0 :
+                # in case of going back
+                nextCategories = nextCategories - startSetList[i - 1]
+            # print str(i) +" left " + str(nextCategories)
+            # compare to every categories in endSetList
+            for j in range(0,len(endSetList)):
+                inter = endSetList[j].intersection(nextCategories)
+                if len(inter) != 0:
+                    # arealdy find the path
+                    shortlength = i + j + 2
+                    isFind = True
+                    break
+            if isFind:
+                break
+            # not find the path, store it
+            startSetList.append(nextCategories)
 
             # next extend end concept
             broaderCategories = self.findBroaderCategories(endSetList[i])
-            broaderCategories.union(self.findSubCategories(endSetList[i]))
-            endSetList.append(broaderCategories)
+            subCategories = self.findSubCategories(endSetList[i])
+            nextCategories = broaderCategories | subCategories
+            if i > 0:
+                # in case of going back
+                nextCategories = nextCategories - endSetList[i - 1]
+            # print str(i) + " right " + str(nextCategories)
+            # compare to every categories in startSetList
+            for j in range(0,len(endSetList)):
+                inter = startSetList[j].intersection(nextCategories)
+                if len(inter) != 0:
+                    # arealdy find the path
+                    shortlength = i + j + 2
+                    isFind = True
+                    break
+            if isFind:
+                break
+            endSetList.append(nextCategories)
 
-        for i in range(len(startSetList)):
-            for j in range(len(endSetList)):
-                inter = startSetList[i].intersection(endSetList[j])
-                if len(inter) != 0 :
-                    if shortlength > i + j + 1:
-                        shortlength = i + j + 1
-        return shortlength
+        if isFind:
+            return shortlength
+        else:
+            return False
 
     def findBroaderCategories(self,concepts):
         concepts = tuple(concepts)
         cur = self.con.cursor()
         sql = "SELECT broader FROM category WHERE concept in %s" % str(concepts)
-        print sql
+        # print sql
         cur.execute(sql)
         rows = cur.fetchall()
         concepts = set()
@@ -123,7 +149,7 @@ class DbpediaQuery :
         concepts = tuple(concepts)
         cur = self.con.cursor()
         sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)
-        print sql
+        # print sql
         cur.execute(sql)
         rows = cur.fetchall()
         concepts = set()
@@ -140,6 +166,6 @@ if __name__ == '__main__':
     print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
     import time
     start = time.time() * 1000
-    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("blue","airline"))
+    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake"))
     end = time.time() * 1000
     print "cost time "+ str(end - start)
