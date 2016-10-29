@@ -11,9 +11,18 @@ class DbpediaQuery :
     searcher = []
     con = []
     def __init__(self):
+        print 'starting init DbpediaQuery...'
         # self.con = lite.connect('resource-concept.db')
-        self.con = lite.connect('resource.db')
+        # self.con = lite.connect('resource.db')
+        self.con = lite.connect(':memory:')
         self.con.text_factory = lambda x: unicode(x, "utf-8", "ignore")
+        cur = self.con.cursor()
+        cur.executescript("create table subject(resource,concept);create index idx_res on subject(resource);"
+                        "create table category(concept,broader);CREATE INDEX idx_bro on category(broader);"
+                        "CREATE INDEX idx_cat on category(concept);")
+        cur.execute("attach 'resource.db' as filedb")
+        cur.execute("insert into category  select * from filedb.category")
+        print 'finished init DbpediaQuery!'
 
     '''
     find all the concepts of a thing
@@ -21,7 +30,7 @@ class DbpediaQuery :
     def getConceptsOfThing(self,thing) :
         thing = thing.lower()
         cur = self.con.cursor()
-        cur.execute("SELECT concept FROM subject WHERE resource='%s'" %thing)
+        cur.execute("SELECT concept FROM filedb.subject WHERE resource='%s'" %thing)
         rows = cur.fetchall()
         concepts = []
         for row in rows :
@@ -134,8 +143,12 @@ class DbpediaQuery :
 
     def findBroaderCategories(self,concepts):
         concepts = tuple(concepts)
+        if len(concepts) == 1 :
+            sql = "SELECT broader FROM category WHERE concept in %s" % str(concepts)[0:-2]+")"
+        else :
+            sql = "SELECT broader FROM category WHERE concept in %s" % str(concepts)
+
         cur = self.con.cursor()
-        sql = "SELECT broader FROM category WHERE concept in %s" % str(concepts)
         # print sql
         cur.execute(sql)
         rows = cur.fetchall()
@@ -147,8 +160,13 @@ class DbpediaQuery :
 
     def findSubCategories(self,concepts):
         concepts = tuple(concepts)
+        if len(concepts) == 1:
+            sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)[0:-2]+")"
+        else :
+            sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)
+
         cur = self.con.cursor()
-        sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)
+
         # print sql
         cur.execute(sql)
         rows = cur.fetchall()
@@ -166,6 +184,6 @@ if __name__ == '__main__':
     print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
     import time
     start = time.time() * 1000
-    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake"))
+    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("sky","cloud"))
     end = time.time() * 1000
     print "cost time "+ str(end - start)
