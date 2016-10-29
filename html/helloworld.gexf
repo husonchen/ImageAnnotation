@@ -1,0 +1,460 @@
+<gexf xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.gephi.org/gexf/1.1draft" xmlns:ns0="xsi" version="1.1" ns0:schemaLocation="http://www.gephi.org/gexf/1.1draft http://gephi.org/gexf/1.1draft.xsd">
+  <meta lastmodified="2016-10-29T12:26:22.024858">
+    <creator>Husonchen</creator>
+    <description>A hello world! file</description>
+  </meta>
+  <graph defaultedgetype="undirected" label="categories" mode="static">
+    <attributes class="node" mode="dynamic"/>
+    <attributes class="node" mode="static"/>
+    <attributes class="edge" mode="dynamic"/>
+    <attributes class="edge" mode="static"/>
+    <nodes>
+      <node id="philosophical_concepts" label="philosophical_concepts">
+        <attvalues/>
+      </node>
+      <node id="consciousness" label="consciousness">
+        <attvalues/>
+      </node>
+      <node id="mental_content" label="mental_content">
+        <attvalues/>
+      </node>
+      <node id="color" label="color">
+        <attvalues/>
+      </node>
+      <node id="communication" label="communication">
+        <attvalues/>
+      </node>
+      <node id="qualia" label="qualia">
+        <attvalues/>
+      </node>
+      <node id="humans" label="humans">
+        <attvalues/>
+      </node>
+      <node id="metaphysics_of_mind" label="metaphysics_of_mind">
+        <attvalues/>
+      </node>
+      <node id="packaging" label="packaging">
+        <attvalues/>
+      </node>
+      <node id="brain" label="brain">
+        <attvalues/>
+      </node>
+      <node id="cognitive_science" label="cognitive_science">
+        <attvalues/>
+      </node>
+      <node id="perception" label="perception">
+        <attvalues/>
+      </node>
+      <node id="design" label="design">
+        <attvalues/>
+      </node>
+      <node id="electromagnetic_spectrum" label="electromagnetic_spectrum">
+        <attvalues/>
+      </node>
+      <node id="psychological_methodology" label="psychological_methodology">
+        <attvalues/>
+      </node>
+      <node id="graphic_design" label="graphic_design">
+        <attvalues/>
+      </node>
+      <node id="epistemology" label="epistemology">
+        <attvalues/>
+      </node>
+      <node id="arts" label="arts">
+        <attvalues/>
+      </node>
+      <node id="art_media" label="art_media">
+        <attvalues/>
+      </node>
+      <node id="subjective_experience" label="subjective_experience">
+        <attvalues/>
+      </node>
+      <node id="concepts_by_field" label="concepts_by_field">
+        <attvalues/>
+      </node>
+      <node id="intention" label="intention">
+        <attvalues/>
+      </node>
+      <node id="neuropsychological_assessment" label="neuropsychological_assessment">
+        <attvalues/>
+      </node>
+      <node id="mental_processes" label="mental_processes">
+        <attvalues/>
+      </node>
+      <node id="writing" label="writing">
+        <attvalues/>
+      </node>
+      <node id="electrodynamics" label="electrodynamics">
+        <attvalues/>
+      </node>
+      <node id="psychological_concepts" label="psychological_concepts">
+        <attvalues/>
+      </node>
+      <node id="promotion_and_marketing_communications" label="promotion_and_marketing_communications">
+        <attvalues/>
+      </node>
+      <node id="advertising_campaigns" label="advertising_campaigns">
+        <attvalues/>
+      </node>
+      <node id="philosophy_of_mind" label="philosophy_of_mind">
+        <attvalues/>
+      </node>
+      <node id="concepts_in_epistemology" label="concepts_in_epistemology">
+        <attvalues/>
+      </node>
+      <node id="disciplines" label="disciplines">
+        <attvalues/>
+      </node>
+      <node id="electromagnetic_radiation" label="electromagnetic_radiation">
+        <attvalues/>
+      </node>
+      <node id="senses" label="senses">
+        <attvalues/>
+      </node>
+      <node id="experimental_psychology" label="experimental_psychology">
+        <attvalues/>
+      </node>
+      <node id="mind" label="mind">
+        <attvalues/>
+      </node>
+      <node id="techniques" label="techniques">
+        <attvalues/>
+      </node>
+      <node id="neuropsychology" label="neuropsychology">
+        <attvalues/>
+      </node>
+      <node id="social_sciences" label="social_sciences">
+        <attvalues/>
+      </node>
+      <node id="sensory_systems" label="sensory_systems">
+        <attvalues/>
+      </node>
+      <node id="philosophy_of_psychology" label="philosophy_of_psychology">
+        <attvalues/>
+      </node>
+      <node id="experimental_social_sciences" label="experimental_social_sciences">
+        <attvalues/>
+      </node>
+      <node id="waves" label="waves">
+        <attvalues/>
+      </node>
+      <node id="neuroscience" label="neuroscience">
+        <attvalues/>
+      </node>
+      <node id="scientific_problems" label="scientific_problems">
+        <attvalues/>
+      </node>
+      <node id="artistic_techniques" label="artistic_techniques">
+        <attvalues/>
+      </node>
+      <node id="knowledge" label="knowledge">
+        <attvalues/>
+      </node>
+      <node id="unsolved_problems_in_neuroscience" label="unsolved_problems_in_neuroscience">
+        <attvalues/>
+      </node>
+      <node id="processes" label="processes">
+        <attvalues/>
+      </node>
+      <node id="communication_studies" label="communication_studies">
+        <attvalues/>
+      </node>
+      <node id="nervous_system" label="nervous_system">
+        <attvalues/>
+      </node>
+      <node id="communication_design" label="communication_design">
+        <attvalues/>
+      </node>
+      <node id="visual_arts" label="visual_arts">
+        <attvalues/>
+      </node>
+      <node id="skills" label="skills">
+        <attvalues/>
+      </node>
+      <node id="cognition" label="cognition">
+        <attvalues/>
+      </node>
+      <node id="neurophysiology" label="neurophysiology">
+        <attvalues/>
+      </node>
+      <node id="psychology" label="psychology">
+        <attvalues/>
+      </node>
+      <node id="concepts_in_metaphysics" label="concepts_in_metaphysics">
+        <attvalues/>
+      </node>
+      <node id="branches_of_psychology" label="branches_of_psychology">
+        <attvalues/>
+      </node>
+      <node id="light" label="light">
+        <attvalues/>
+      </node>
+      <node id="sources_of_knowledge" label="sources_of_knowledge">
+        <attvalues/>
+      </node>
+      <node id="optics" label="optics">
+        <attvalues/>
+      </node>
+      <node id="self" label="self">
+        <attvalues/>
+      </node>
+      <node id="vision" label="vision">
+        <attvalues/>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="56" source="subjective_experience" target="self">
+        <attvalues/>
+      </edge>
+      <edge id="77" source="communication_design" target="communication_studies">
+        <attvalues/>
+      </edge>
+      <edge id="54" source="mind" target="psychology">
+        <attvalues/>
+      </edge>
+      <edge id="42" source="communication_design" target="social_sciences">
+        <attvalues/>
+      </edge>
+      <edge id="48" source="visual_arts" target="vision">
+        <attvalues/>
+      </edge>
+      <edge id="43" source="unsolved_problems_in_neuroscience" target="neuroscience">
+        <attvalues/>
+      </edge>
+      <edge id="60" source="subjective_experience" target="consciousness">
+        <attvalues/>
+      </edge>
+      <edge id="61" source="light" target="electromagnetic_radiation">
+        <attvalues/>
+      </edge>
+      <edge id="62" source="perception" target="mind">
+        <attvalues/>
+      </edge>
+      <edge id="63" source="concepts_in_epistemology" target="epistemology">
+        <attvalues/>
+      </edge>
+      <edge id="64" source="mental_processes" target="psychology">
+        <attvalues/>
+      </edge>
+      <edge id="49" source="psychological_concepts" target="concepts_by_field">
+        <attvalues/>
+      </edge>
+      <edge id="66" source="communication_design" target="advertising_campaigns">
+        <attvalues/>
+      </edge>
+      <edge id="67" source="cognitive_science" target="social_sciences">
+        <attvalues/>
+      </edge>
+      <edge id="68" source="unsolved_problems_in_neuroscience" target="scientific_problems">
+        <attvalues/>
+      </edge>
+      <edge id="69" source="visual_arts" target="disciplines">
+        <attvalues/>
+      </edge>
+      <edge id="80" source="qualia" target="subjective_experience">
+        <attvalues/>
+      </edge>
+      <edge id="52" source="sources_of_knowledge" target="concepts_in_epistemology">
+        <attvalues/>
+      </edge>
+      <edge id="53" source="mind" target="humans">
+        <attvalues/>
+      </edge>
+      <edge id="24" source="mind" target="brain">
+        <attvalues/>
+      </edge>
+      <edge id="25" source="perception" target="concepts_in_epistemology">
+        <attvalues/>
+      </edge>
+      <edge id="26" source="color" target="graphic_design">
+        <attvalues/>
+      </edge>
+      <edge id="27" source="graphic_design" target="art_media">
+        <attvalues/>
+      </edge>
+      <edge id="20" source="mind" target="philosophy_of_mind">
+        <attvalues/>
+      </edge>
+      <edge id="21" source="mind" target="philosophy_of_psychology">
+        <attvalues/>
+      </edge>
+      <edge id="22" source="sensory_systems" target="nervous_system">
+        <attvalues/>
+      </edge>
+      <edge id="23" source="cognitive_science" target="cognition">
+        <attvalues/>
+      </edge>
+      <edge id="46" source="mental_processes" target="intention">
+        <attvalues/>
+      </edge>
+      <edge id="47" source="vision" target="senses">
+        <attvalues/>
+      </edge>
+      <edge id="44" source="consciousness" target="mind">
+        <attvalues/>
+      </edge>
+      <edge id="45" source="vision" target="light">
+        <attvalues/>
+      </edge>
+      <edge id="28" source="senses" target="perception">
+        <attvalues/>
+      </edge>
+      <edge id="29" source="perception" target="cognitive_science">
+        <attvalues/>
+      </edge>
+      <edge id="40" source="concepts_in_epistemology" target="philosophical_concepts">
+        <attvalues/>
+      </edge>
+      <edge id="41" source="perception" target="subjective_experience">
+        <attvalues/>
+      </edge>
+      <edge id="1" source="consciousness" target="philosophy_of_mind">
+        <attvalues/>
+      </edge>
+      <edge id="0" source="perception" target="neuropsychological_assessment">
+        <attvalues/>
+      </edge>
+      <edge id="3" source="perception" target="psychological_concepts">
+        <attvalues/>
+      </edge>
+      <edge id="2" source="mental_processes" target="processes">
+        <attvalues/>
+      </edge>
+      <edge id="5" source="experimental_psychology" target="experimental_social_sciences">
+        <attvalues/>
+      </edge>
+      <edge id="4" source="color" target="artistic_techniques">
+        <attvalues/>
+      </edge>
+      <edge id="7" source="art_media" target="visual_arts">
+        <attvalues/>
+      </edge>
+      <edge id="6" source="perception" target="mental_processes">
+        <attvalues/>
+      </edge>
+      <edge id="9" source="light" target="electromagnetic_spectrum">
+        <attvalues/>
+      </edge>
+      <edge id="8" source="visual_arts" target="skills">
+        <attvalues/>
+      </edge>
+      <edge id="78" source="psychological_concepts" target="psychology">
+        <attvalues/>
+      </edge>
+      <edge id="51" source="techniques" target="skills">
+        <attvalues/>
+      </edge>
+      <edge id="82" source="mind" target="concepts_in_metaphysics">
+        <attvalues/>
+      </edge>
+      <edge id="83" source="mind" target="neurophysiology">
+        <attvalues/>
+      </edge>
+      <edge id="39" source="artistic_techniques" target="techniques">
+        <attvalues/>
+      </edge>
+      <edge id="65" source="sources_of_knowledge" target="knowledge">
+        <attvalues/>
+      </edge>
+      <edge id="76" source="graphic_design" target="communication_design">
+        <attvalues/>
+      </edge>
+      <edge id="75" source="mental_processes" target="mental_content">
+        <attvalues/>
+      </edge>
+      <edge id="38" source="qualia" target="consciousness">
+        <attvalues/>
+      </edge>
+      <edge id="73" source="experimental_psychology" target="branches_of_psychology">
+        <attvalues/>
+      </edge>
+      <edge id="72" source="perception" target="unsolved_problems_in_neuroscience">
+        <attvalues/>
+      </edge>
+      <edge id="71" source="visual_arts" target="arts">
+        <attvalues/>
+      </edge>
+      <edge id="70" source="sources_of_knowledge" target="epistemology">
+        <attvalues/>
+      </edge>
+      <edge id="59" source="neuropsychological_assessment" target="neuropsychology">
+        <attvalues/>
+      </edge>
+      <edge id="79" source="perception" target="sensory_systems">
+        <attvalues/>
+      </edge>
+      <edge id="58" source="communication_design" target="promotion_and_marketing_communications">
+        <attvalues/>
+      </edge>
+      <edge id="11" source="visual_arts" target="communication_design">
+        <attvalues/>
+      </edge>
+      <edge id="10" source="light" target="electrodynamics">
+        <attvalues/>
+      </edge>
+      <edge id="13" source="consciousness" target="psychological_concepts">
+        <attvalues/>
+      </edge>
+      <edge id="12" source="subjective_experience" target="metaphysics_of_mind">
+        <attvalues/>
+      </edge>
+      <edge id="15" source="color" target="vision">
+        <attvalues/>
+      </edge>
+      <edge id="14" source="senses" target="sensory_systems">
+        <attvalues/>
+      </edge>
+      <edge id="17" source="communication_design" target="design">
+        <attvalues/>
+      </edge>
+      <edge id="16" source="mental_processes" target="cognitive_science">
+        <attvalues/>
+      </edge>
+      <edge id="19" source="color" target="perception">
+        <attvalues/>
+      </edge>
+      <edge id="18" source="light" target="waves">
+        <attvalues/>
+      </edge>
+      <edge id="31" source="cognitive_science" target="mind">
+        <attvalues/>
+      </edge>
+      <edge id="30" source="color" target="qualia">
+        <attvalues/>
+      </edge>
+      <edge id="37" source="communication_design" target="writing">
+        <attvalues/>
+      </edge>
+      <edge id="36" source="mental_processes" target="mind">
+        <attvalues/>
+      </edge>
+      <edge id="35" source="cognitive_science" target="branches_of_psychology">
+        <attvalues/>
+      </edge>
+      <edge id="34" source="communication_design" target="communication">
+        <attvalues/>
+      </edge>
+      <edge id="33" source="consciousness" target="humans">
+        <attvalues/>
+      </edge>
+      <edge id="55" source="experimental_psychology" target="psychological_methodology">
+        <attvalues/>
+      </edge>
+      <edge id="74" source="perception" target="sources_of_knowledge">
+        <attvalues/>
+      </edge>
+      <edge id="32" source="communication_design" target="packaging">
+        <attvalues/>
+      </edge>
+      <edge id="81" source="perception" target="experimental_psychology">
+        <attvalues/>
+      </edge>
+      <edge id="57" source="artistic_techniques" target="visual_arts">
+        <attvalues/>
+      </edge>
+      <edge id="50" source="light" target="optics">
+        <attvalues/>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

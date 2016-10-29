@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <meta charset="utf-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="echarts.js"></script>
+    <script src="dataTool.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>
+</header>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1200px;height:800px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+myChart.showLoading();
+$.get('helloworld.gexf', function (xml) {
+    myChart.hideLoading();
+
+    var graph = echarts.dataTool.gexf.parse(xml);
+    var categories = [];
+    for (var i = 0; i < 9; i++) {
+        categories[i] = {
+            name: '类目' + i
+        };
+    }
+    graph.nodes.forEach(function (node) {
+        node.itemStyle = null;
+        node.symbolSize = 10;
+        node.value = node.symbolSize;
+        // Use random x, y
+        node.x = node.y = null;
+        node.draggable = true;
+    });
+    option = {
+        title: {
+            text: 'Les Miserables',
+            subtext: 'Default layout',
+            top: 'bottom',
+            left: 'right'
+        },
+        tooltip: {},
+        animation: false,
+        series : [
+            {
+                name: 'Les Miserables',
+                type: 'graph',
+                layout: 'force',
+                data: graph.nodes,
+                links: graph.links,
+                roam: true,
+                label: {
+                    normal: {
+                        position: 'right',
+                        show : true
+                    }
+                },
+                force: {
+                    repulsion: 100
+                }
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+}, 'xml');
+    </script>
+</body>
+</html>
