@@ -63,27 +63,21 @@ class DbpediaQuery :
     '''
     def getSmallestDistance(self,tag1,tag2):
 
-        head = []
-        tail = []
         concepts1 = self.getConceptsOfThing(tag1)
-        if len(concepts1) != 0 :
-            head = [[tag1.lower()]]
-        else :
+        if len(concepts1) == 0 :
             return False
 
         concepts2 = self.getConceptsOfThing(tag2)
-        if len(concepts2) != 0 :
-            tail = [[tag2.lower()]]
-        else :
+        if len(concepts2) == 0 :
             return False
 
-        pathLength = self.deepFirstSearch(concepts1,concepts2)
+        pathNode = self.breadthFirstSearch(concepts1,concepts2)
 
-        if pathLength == False:
+        if pathNode == False:
             return False
-        return  pathLength + 2
+        return  pathNode + 1
 
-    def deepFirstSearch(self,concepts1,concepts2):
+    def breadthFirstSearch(self,concepts1,concepts2):
         startSetList = [set(concepts1)] # start set,every element of this list is a set
         endSetList = [set(concepts2)]
 
@@ -92,52 +86,48 @@ class DbpediaQuery :
             return 1
         # if(met)
         maxDepth = 10
-        shortlength = 65535
+        shortNode = 65535
         isFind = False
         for i in range(0, maxDepth):
             # find the entry of this depth
             broaderCategories = self.findBroaderCategories(startSetList[i])
-            subCategories = self.findSubCategories(startSetList[i])
-            nextCategories = broaderCategories | subCategories
-            if i > 0 :
-                # in case of going back
-                nextCategories = nextCategories - startSetList[i - 1]
+            # in case of aleardy path
+            for startSet in startSetList:
+                broaderCategories = broaderCategories - startSet
             # print str(i) +" left " + str(nextCategories)
             # compare to every categories in endSetList
             for j in range(0,len(endSetList)):
-                inter = endSetList[j].intersection(nextCategories)
+                inter = endSetList[j].intersection(broaderCategories)
                 if len(inter) != 0:
                     # arealdy find the path
-                    shortlength = i + j + 2
+                    shortNode = i + j + 2
                     isFind = True
                     break
             if isFind:
                 break
             # not find the path, store it
-            startSetList.append(nextCategories)
+            startSetList.append(broaderCategories)
 
             # next extend end concept
             broaderCategories = self.findBroaderCategories(endSetList[i])
-            subCategories = self.findSubCategories(endSetList[i])
-            nextCategories = broaderCategories | subCategories
-            if i > 0:
+            for endSet in endSetList:
                 # in case of going back
-                nextCategories = nextCategories - endSetList[i - 1]
+                broaderCategories = broaderCategories - endSet
             # print str(i) + " right " + str(nextCategories)
             # compare to every categories in startSetList
             for j in range(0,len(endSetList)):
-                inter = startSetList[j].intersection(nextCategories)
+                inter = startSetList[j].intersection(broaderCategories)
                 if len(inter) != 0:
                     # arealdy find the path
-                    shortlength = i + j + 2
+                    shortNode = i + j + 2
                     isFind = True
                     break
             if isFind:
                 break
-            endSetList.append(nextCategories)
+            endSetList.append(broaderCategories)
 
         if isFind:
-            return shortlength
+            return shortNode
         else:
             return False
 
@@ -158,23 +148,6 @@ class DbpediaQuery :
 
         return concepts
 
-    def findSubCategories(self,concepts):
-        concepts = tuple(concepts)
-        if len(concepts) == 1:
-            sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)[0:-2]+")"
-        else :
-            sql = "SELECT concept FROM category WHERE broader in %s" % str(concepts)
-
-        cur = self.con.cursor()
-
-        # print sql
-        cur.execute(sql)
-        rows = cur.fetchall()
-        concepts = set()
-        for row in rows:
-            concepts.add(row[0].encode('utf-8'))
-
-        return concepts
 
 if __name__ == '__main__':
     query = DbpediaQuery()
@@ -184,6 +157,6 @@ if __name__ == '__main__':
     print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
     import time
     start = time.time() * 1000
-    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("sky","cloud"))
+    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake"))
     end = time.time() * 1000
-    print "cost time "+ str(end - start)
+    print "cost time "+ str(end - start) + 'ms'
