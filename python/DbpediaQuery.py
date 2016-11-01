@@ -11,18 +11,18 @@ class DbpediaQuery :
     searcher = []
     con = []
     def __init__(self):
-        print 'starting init DbpediaQuery...'
+        print('starting init DbpediaQuery...')
         # self.con = lite.connect('resource-concept.db')
         # self.con = lite.connect('resource.db')
         self.con = lite.connect(':memory:')
-        self.con.text_factory = lambda x: unicode(x, "utf-8", "ignore")
+        self.con.text_factory = lambda x: str(x, "utf-8", "ignore")
         cur = self.con.cursor()
         cur.executescript("create table subject(resource,concept);create index idx_res on subject(resource);"
                         "create table category(concept,broader);CREATE INDEX idx_bro on category(broader);"
                         "CREATE INDEX idx_cat on category(concept);")
         cur.execute("attach 'resource.db' as filedb")
         cur.execute("insert into category  select * from filedb.category")
-        print 'finished init DbpediaQuery!'
+        print( 'finished init DbpediaQuery!')
 
     '''
     find all the concepts of a thing
@@ -34,7 +34,7 @@ class DbpediaQuery :
         rows = cur.fetchall()
         concepts = []
         for row in rows :
-            concepts.append(row[0].encode('utf-8'))
+            concepts.append(row[0])
         return concepts
 
     '''
@@ -139,24 +139,24 @@ class DbpediaQuery :
             sql = "SELECT broader FROM category WHERE concept in %s" % str(concepts)
 
         cur = self.con.cursor()
-        # print sql
+        print(sql)
         cur.execute(sql)
         rows = cur.fetchall()
         concepts = set()
         for row in rows:
-            concepts.add(row[0].encode('utf-8'))
+            concepts.add(row[0])
 
         return concepts
 
 
 if __name__ == '__main__':
     query = DbpediaQuery()
-    print "concept of Blue : " + str(query.getConceptsOfThing("Blue"))
-    print "SuperClass 1 of blue : " + str(query.getSuperClass("blue"))
-    print "SuperClass 2 of blue : " + str(query.getSuperClass("blue",2))
-    print "SuperClass 1 of color : " + str(query.getSuperClass("color"))
+    print("concept of Blue : " + str(query.getConceptsOfThing("Blue")))
+    print("SuperClass 1 of blue : " + str(query.getSuperClass("blue")))
+    print("SuperClass 2 of blue : " + str(query.getSuperClass("blue",2)))
+    print("SuperClass 1 of color : " + str(query.getSuperClass("color")))
     import time
     start = time.time() * 1000
-    print "SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake"))
+    print("SmallestDistance between water and lake " + str(query.getSmallestDistance("water","lake")))
     end = time.time() * 1000
-    print "cost time "+ str(end - start) + 'ms'
+    print("cost time "+ str(end - start) + 'ms')
