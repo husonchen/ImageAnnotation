@@ -37,27 +37,19 @@ for i in range(len(queryWikis)):
 
 result = sorted(relatedWiki,key = relatedWiki.__getitem__,reverse = True)
 sameScoreList = []
+relateWikiWeight = {}
+
+def weigthFun(linkWeight,distanceWeight):
+    return 0.5*linkWeight + 0.5*distanceWeight
+
 for i in range(20):
     t = result[i]
     distance = 0
     for query in queryWikis:
         distance += dbquery.getSmallestDistance(query.replace(' ','_'),t.replace(' ','_'))
-    if distance == 0:
-        continue
-    if len(sameScoreList) == 0 or len(sameScoreList[-1]) == 0 :
-        sameScoreList += [{t:distance}]
-    else:
-        lastScoreDict = sameScoreList[-1]
-        lastScore = relatedWiki[result[i -1]]
-        if relatedWiki[t] == lastScore:
-            lastScoreDict[t] = distance
-        else :
-            # add next set
-            sameScoreList += [{t:distance}]
+    averageDistance = distance/len(queryWikis)
+    relateWikiWeight[t] = weigthFun(relatedWiki[t],averageDistance)
 
-print(sameScoreList)
-resultList = []
-for sameScoreSet in sameScoreList:
-    result = sorted(sameScoreSet,key = sameScoreSet.__getitem__)
+result = sorted(relateWikiWeight,key = relateWikiWeight.__getitem__)
     for r in result:
         print(r+'|'+str(relatedWiki[r]) + '|' + str(relatedWikiNote[r])+'|'+str(sameScoreSet[r]))

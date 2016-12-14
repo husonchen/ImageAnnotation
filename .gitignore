@@ -1,0 +1,10 @@
+*.xml
+*.txt
+*.db
+*.data
+*.npy
+python/.idea
+html/.idea
+*.ipynb
+resource/
+*.bz2

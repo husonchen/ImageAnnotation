@@ -1,9 +1,6 @@
 import sqlite3 as lite
 import sys
-from DbpediaQuery import *
-from functools import cmp_to_key
 
-dbquery = DbpediaQuery()
 con = lite.connect('WikiGraph.db_bk')
 con.text_factory = lambda x: str(x, "utf-8", "ignore")
 cur = con.cursor()
@@ -34,30 +31,7 @@ for i in range(len(queryWikis)):
         else:
             relatedWiki[title] += weight
             relatedWikiNote[title] += [queryWikis[i] + '-' + title +'-'+ str(weight)]
-
-result = sorted(relatedWiki,key = relatedWiki.__getitem__,reverse = True)
-sameScoreList = []
+result = sorted(relatedWiki,key = relatedWiki.__getitem__)
 for i in range(20):
-    t = result[i]
-    distance = 0
-    for query in queryWikis:
-        distance += dbquery.getSmallestDistance(query.replace(' ','_'),t.replace(' ','_'))
-    if distance == 0:
-        continue
-    if len(sameScoreList) == 0 or len(sameScoreList[-1]) == 0 :
-        sameScoreList += [{t:distance}]
-    else:
-        lastScoreDict = sameScoreList[-1]
-        lastScore = relatedWiki[result[i -1]]
-        if relatedWiki[t] == lastScore:
-            lastScoreDict[t] = distance
-        else :
-            # add next set
-            sameScoreList += [{t:distance}]
-
-print(sameScoreList)
-resultList = []
-for sameScoreSet in sameScoreList:
-    result = sorted(sameScoreSet,key = sameScoreSet.__getitem__)
-    for r in result:
-        print(r+'|'+str(relatedWiki[r]) + '|' + str(relatedWikiNote[r])+'|'+str(sameScoreSet[r]))
+    t = result[- (i + 1)]
+    print(t+'|'+str(relatedWiki[t]) + '|' + str(relatedWikiNote[t]))
