@@ -16,32 +16,35 @@ queryWikis = queryWords.split('~')
 print(queryWikis)
 relatedWikiNote= {}
 relatedWiki = {}
+mentionTitle = {}
 for i in range(len(queryWikis)):
     esaRankPoint = 1 /(i + 1)
-    query = 'SELECT article.title,m.weight FROM ' \
-            '(SELECT mentions.page_id, mentions.weight FROM mentions ' \
+    query = 'SELECT article.title,m.mention,m.weight FROM ' \
+            '(SELECT mentions.page_id, mentions.weight,mentions.mention FROM mentions ' \
             'WHERE out_page_id =( SELECT page_id FROM article WHERE title = ?)' \
             ') m LEFT JOIN article ON article.page_id=m.page_id'
     cur.execute(query,[queryWikis[i]])
     rows = cur.fetchall()
     for row in rows:
-        title = row[0]
-        linkWeight = row[1]
+        mentionTitle[row[1]] = row[0]
+        mention = row[1]
+        linkWeight = row[2]
         weight = esaRankPoint * linkWeight
-        if title not in relatedWiki:
-            relatedWiki[title] = weight
-            relatedWikiNote[title] = [queryWikis[i]+'-'+title+'-'+str(weight)]
+        if mention not in relatedWiki:
+            relatedWiki[mention] = weight
+            relatedWikiNote[mention] = [mention+'-'+row[0]+'-'+queryWikis[i]+'-'+str(weight)]
         else:
-            relatedWiki[title] += weight
-            relatedWikiNote[title] += [queryWikis[i] + '-' + title +'-'+ str(weight)]
+            relatedWiki[mention] += weight
+            relatedWikiNote[mention] += [mention+'-'+row[0]+'-'+queryWikis[i]+'-'+ str(weight)]
 
 result = sorted(relatedWiki,key = relatedWiki.__getitem__,reverse = True)
 sameScoreList = []
 for i in range(20):
     t = result[i]
     distance = 0
+    t_title = mentionTitle[t]
     for query in queryWikis:
-        distance += dbquery.getSmallestDistance(query.replace(' ','_'),t.replace(' ','_'))
+        distance += dbquery.getSmallestDistance(query.replace(' ','_'),t_title.replace(' ','_'))
     if distance == 0:
         continue
     if len(sameScoreList) == 0 or len(sameScoreList[-1]) == 0 :
@@ -57,7 +60,10 @@ for i in range(20):
 
 print(sameScoreList)
 resultList = []
+conceptSet = set()
 for sameScoreSet in sameScoreList:
     result = sorted(sameScoreSet,key = sameScoreSet.__getitem__)
     for r in result:
-        print(r+'|'+str(relatedWiki[r]) + '|' + str(relatedWikiNote[r])+'|'+str(sameScoreSet[r]))
+        if mentionTitle[r] not in conceptSet:
+            conceptSet.add(mentionTitle[r])
+            print(r+'|'+str(relatedWiki[r]) + '|' + str(relatedWikiNote[r])+'|'+str(sameScoreSet[r]))
